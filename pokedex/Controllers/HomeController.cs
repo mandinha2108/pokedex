@@ -48,12 +48,15 @@ public class HomeController : Controller
             string dados = leitor.ReadToEnd(); 
         tipos = JsonSerializer.Deserialize<List<Tipo>>(dados);
         }
-        ViewData ["Tipos"] = tipos;
-        var pokemon = pokemons
-            .Where(p => p.Numero == id)
-            .FirstOrDefault();
-        return View(pokemon);
+    DetailsVM details = new(){
+        Tipos = tipos,
+        Atual = pokemons.FirstOrDefault(p => p.Numero == id),
+        Anterior = pokemons.OrderByDescending(p => p.Numero).FirstOrDefault(p => p.Numero < id),
+        Proximo = pokemons.OrderBy(p => p.Numero).FirstOrDefault(p => p.Numero > id),
+     };
+        return View(details);
     }
+    
 
     public IActionResult Privacy()
     {
