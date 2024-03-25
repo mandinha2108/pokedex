@@ -18,7 +18,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        List<Pokemon> pokemons = [];
+        List<Pokemon> pokemons = GetPokemons();
         using (StreamReader leitor = new("Data\\pokemons.json"))
         {
             string dados = leitor.ReadToEnd();
@@ -56,7 +56,23 @@ public class HomeController : Controller
      };
         return View(details);
     }
-    
+    private List<Pokemon> GetPokemons()
+    {
+        using (StreamReader leitor = new("Data\\pokemons.json"))
+        {
+            string dados = leitor.ReadToEnd();
+            return JsonSerializer.Deserialize<List<Pokemon>>(dados);
+        }
+    }
+
+    private List<Tipo> GetTipos()
+    {
+        using (StreamReader leitor = new("Data\\tipos.jason"))
+        {
+            string dados = leitor.ReadToEnd();
+            return JsonSerializer.Deserialize<List<Tipo>>(dados);
+        }
+    }
 
     public IActionResult Privacy()
     {
