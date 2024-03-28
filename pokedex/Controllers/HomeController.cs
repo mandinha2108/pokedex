@@ -29,13 +29,14 @@ public class HomeController : Controller
         List<Pokemon> pokemons = GetPokemons();
         List<Tipo> tipos= GetTipos();
         DetailsVM details = new() {
-        Tipos = tipos,
-        Atual = pokemons.FirstOrDefault(p => p.Numero == id),
-        Anterior = pokemons.OrderByDescending(p => p.Numero).FirstOrDefault(p => p.Numero < id),
-        Proximo = pokemons.OrderBy(p => p.Numero).FirstOrDefault(p => p.Numero > id),
-     };
+            Tipos = tipos,
+            Atual = pokemons.FirstOrDefault(p => p.Numero == id),
+            Anterior = pokemons.OrderByDescending(p => p.Numero).FirstOrDefault(p => p.Numero < id),
+            Proximo = pokemons.OrderBy(p => p.Numero).FirstOrDefault(p => p.Numero > id)
+        };
         return View(details);
     }
+
     private List<Pokemon> GetPokemons()
     {
         using (StreamReader leitor = new("Data\\pokemons.json"))
@@ -47,7 +48,7 @@ public class HomeController : Controller
 
     private List<Tipo> GetTipos()
     {
-        using (StreamReader leitor = new("Data\\tipos.jason"))
+        using (StreamReader leitor = new("Data\\tipos.json"))
         {
             string dados = leitor.ReadToEnd();
             return JsonSerializer.Deserialize<List<Tipo>>(dados);
